@@ -1,0 +1,14 @@
+{
+  "name": "mysql-changer",
+  "version": "1.0.0",
+  "description": "Tool to change columns in mysql databases",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js "
+  },
+  "author": "Wangoe Woe",
+  "license": "ISC",
+  "dependencies": {
+    "mysql": "^2.10.0"
+  }
+}
