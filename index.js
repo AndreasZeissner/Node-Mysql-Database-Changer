@@ -8,11 +8,32 @@ var connection = mysql.createConnection({
 
 connection.connect(); 
 
-connection.query('select guid from wp_posts', function (err, rows, fields){
-	if (err) {
-		throw err;
-	}
-	rows.forEach(function (entry){
-		console.log(entry.guid); 
+var updateRow = function (connection, row, callback) {
+	 console.log(row.guid);
+	var changed = row.guid.replace('https://mayflower.de', 'http://mayflower.dev');
+	connection.query("UPDATE wp_posts SET guid = ?", [changed], function (err, result) {
+
 	});
-});
+
+	callback();
+}
+
+connection.query('SELECT * FROM wp_posts').
+on('error', function(err) {
+	if (err) {
+		throw (err);
+	} 
+  })
+  .on('fields', function(fields) {
+
+  })
+  .on('result', function(row) {
+	connection.pause();
+    updateRow(connection,row, function() {
+		connection.resume();
+    });
+  })
+  .on('end', function() {
+
+	connection.destroy(); 
+  });
